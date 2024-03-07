@@ -121,7 +121,11 @@
 	
 		const set_nav_next = () => {
 			// TODO: move to the next image, unless at the end in which case show the first image
-			
+			current_index++;
+			if (current_index > 4) {
+				current_index = 0;
+			}
+			set_main_image(current_index);
 		}
 	
 		const set_nav_prev = () => {
@@ -129,7 +133,8 @@
 		}	
 	
 		window.addEventListener("load", first_load);
-		first_btn.addEventListener("click", set_nav_first)
+		first_btn.addEventListener("click", set_nav_first);
+		next_btn.addEventListener("click", set_nav_next);
 		last_btn.addEventListener("click", set_nav_last);
 	</script>
 </body>
