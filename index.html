@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -23,7 +23,6 @@
 	    img.clickable{
 	        cursor:pointer;
 	    }
-	
 	</style>
 </head>
 <body>
@@ -45,8 +44,8 @@
 	        </tr>
 	        <tr>
 	            <td>
-	                <img src="images/first.png" id="first-btn" style= "cursor:pointer"/>            
-	                <img src="images/prev.png" id="prev-btn" style= "cursor:pointer"/>
+	                <img src="images/first.png" id="first-btn" style="cursor:pointer"/>            
+	                <img src="images/prev.png" id="prev-btn" style="cursor:pointer"/>
 	            </td>
 	            <td>
 	                <div id="thumbnail-area">
@@ -54,8 +53,8 @@
 					</div>	        
 	            </td>
 	            <td>
-	                <img src="images/next.png" id="next-btn" style= "cursor:pointer"/>            
-	                <img src="images/last.png" id="last-btn" style= "cursor:pointer"/>
+	                <img src="images/next.png" id="next-btn" style="cursor:pointer"/>            
+	                <img src="images/last.png" id="last-btn" style="cursor:pointer"/>
 	            </td>
 	        </tr>	    
 	    </table>       
@@ -63,13 +62,15 @@
     
 	<script>
 		// Josel Canlas A01361517 Assignment 2
+		let current_index = 0;
 		const first_btn = document.querySelector("#first-btn");
 		const prev_btn = document.querySelector("prev-btn");
 		const next_btn = document.querySelector("#next-btn");
 		const last_btn = document.querySelector("#last-btn");
 
 		const first_load = () => {
-			document.querySelector("#main-image").src = "./images/" + image_name[0] + "_main.jpg";
+			set_main_image(0);
+			set_thumbnails();
 		}
 		// loads the const array image_names in the global scope first so that other code blocks can access it:
 		const image_name = ["dough", "sauce", "cheese", "beef", "salami"];
@@ -78,11 +79,10 @@
 			// TODO: set the main-image src image based on the passed parameter	    
 			// the DOM selects the main image div. Then it applies the source of the main image by: the folder name, "./images/"; the selected index name, image_name[index]; and specifies that it is a main image + file type + file type, "main.png":
 			document.querySelector("#main-image").src = "./images/" + image_name[index] + "_main.jpg";
-			// TODO: set the hidden textbox to the current index (if you take this approach)	
-			document.querySelector("#current-index").innerText = image_name[index];
-			console.log(image_name[index]);
 			// updates the thumbnails based on the index selected:
 			update_thumbnails(index);
+			// updates current index 
+			current_index = index;
 		}
 		// defines thumbnail const arrow function in the global scope:
 		const set_thumbnails = () => {
@@ -91,32 +91,31 @@
 			// TODO: loop through the global array and build the html
 			//       - add an onclick handler to each thumbnail to call set_main_image(index)
 			image_name.forEach( (name, index) => {
-				// creates an <img> in the html via DOM:
-				const new_thumb = document.createElement("img");
+				// creates an <img> in the html via DOM when new_thumbnail is called:
+				const new_thumbnail = document.createElement("img");
 				// the DOM selects the main image div. Then it applies the source of the main image by: the folder name, "./images/"; the selected index image name, image_name; and specifies that it is a thumbnail + file type, "thumbnail.png":
-				new_thumb.src = "./images/" + image_name[index] + "_thumbnail.png";
-				new_thumb.className = "clickable";
-				new_thumb.addEventListener("click", () => {
-					set_main_image(index);
-				})
+				new_thumbnail.className = "clickable";
+				new_thumbnail.src = "./images/" + image_name[index] + "_thumbnail.jpg";
+				new_thumbnail.addEventListener("click", () => { set_main_image(index); });
+				// adds the new_thumb to the thumbnail-area div:
+				document.querySelector("#thumbnail-area").appendChild(new_thumbnail);
 			})
-			// adds the new_thumb to the thumbnail-area div:
-			document.querySelector("#thumbnail-area").appendChild(new_thumb);
 		} 
 	
 		const update_thumbnails = (current_index) => {
-			// TODO: you'll need to loop through all thumbnails
-			//		- turn on an indicator (eg opacity:1.0) if it's the selected thumb
-			//		- turn off the indicator (eg opacity:0.75) if it's not
+			const thumbnail = document.querySelectorAll(".clickable");
+			thumbnail.forEach((thumbnail_opacity, loop_index) => {
+				thumbnail_opacity.style.opacity = (current_index == loop_index) ? 1 : 0.75;
+			});
 		} 
 	
 		const set_nav_first = () => {
 			// displays first image:
-			document.querySelector("#main-image").src = "./images/" + image_name[0] + "_main.jpg";
+			set_main_image(0);
 		}
 	
 		const set_nav_last = () => {
-			document.querySelector("#main-image").src = "./images/" + image_name[4] + "_main.jpg";
+			set_main_image(4);
 			// TODO: navigate to the last image (should work for any size array)
 		}
 	
