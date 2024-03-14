@@ -34,10 +34,7 @@
 	        <tr>
 	            <td></td>
 	            <td style="text-align:center;">
-                    <div><img id="main-image" alt="Main Image"/></div>
-
-                    <!-- you may or may not use this hidden textbox-->
-                    <div><input id="current-index" /></div>    
+                    <div><img id="main-image" alt="Main Image"/></div> 
                 </td>
 	            <td></td>
 	        
@@ -101,17 +98,19 @@
 				new_thumbnail.className = "clickable";
 				// defines the source as "./images" + the index of the image_name that is currently in the main image + "_thumbnail.jpg". This then will choose the image in images that will be the thumbnail image:
 				new_thumbnail.src = "./images/" + image_name[index] + "_thumbnail.jpg";
+				// ternary operator changing the new_thumbnail opacity by adding an opacity attribute if current_index is equal to index, in any other case (that being the thumbnails that are not the main image currently) make the opacity attribute 0.75:
+				new_thumbnail.style.opacity = (current_index == index) ? 1 : 0.75;
 				// when the thumbnail is clicked, run the set_main_images(index):
 				new_thumbnail.addEventListener("click", () => { set_main_image(index); });
 				// adds the new_thumb to the thumbnail-area div:
 				document.querySelector("#thumbnail-area").appendChild(new_thumbnail);
-			})
+			});
 		}
 		// the update_thumbnails arrow function that uses the current_index const as a parameter:
 		const update_thumbnails = (current_index) => {
 			// selects all the clickable class elements via DOM:
 			const thumbnail = document.querySelectorAll(".clickable");
-			//loops through each thumbnail with the parameters of thumbnail_opacity and loop_index:
+			// loops through each thumbnail with the parameters of thumbnail_opacity and loop_index:
 			thumbnail.forEach((thumbnail_opacity, loop_index) => {
 				// ternary operator changing the thumbnail_opacity by adding an opacity attribute if current_index is equal to loop_index, in any other case (that being the thumbnails that are not the main image currently) make the opacity attribute 0.75:
 				thumbnail_opacity.style.opacity = (current_index == loop_index) ? 1 : 0.75;
